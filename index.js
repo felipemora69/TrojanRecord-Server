@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 // Middleware
 app.use(cors(
     {
-        origin: ["trojanrecord-server.vercel.app"],
+        origin: ["https://trojanrecord-server.onrender.com/"],
         methods: ["POST", "GET", "PUT", "DELETE"],
         credentials: true
     }
