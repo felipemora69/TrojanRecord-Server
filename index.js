@@ -25,10 +25,10 @@ const corsOptions = (
     }
 );
 
-app.options('*', cors(corsOptions));
-
 // Apply CORS middleware globally
 app.use(cors(corsOptions));
+
+app.options('*', cors(corsOptions));
 
 // Connect to the database
 mongoose.connect(process.env.MONGO_URI)
