@@ -15,14 +15,20 @@ app.get('/', (req, res) => {
   res.send("Server is up and running!");
 });
 
-// Middleware
-app.use(cors(
+// CORS middleware
+const corsOptions = (
     {
-        origin: ["https://trojanrecord-server.onrender.com"],
+        origin: ["https://trojan-record-shop.vercel.app", "https://trojanrecord-server.onrender.com"],
         methods: ["POST", "GET", "PUT", "DELETE"],
+        allowedHeaders: ["Content-Type", "Authorization"],
         credentials: true
     }
-));
+);
+
+app.options('*', cors(corsOptions));
+
+// Apply CORS middleware globally
+app.use(cors(corsOptions));
 
 // Connect to the database
 mongoose.connect(process.env.MONGO_URI)
