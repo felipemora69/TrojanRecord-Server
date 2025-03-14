@@ -14,8 +14,7 @@ dotenv.config();
 
 // CORS middleware
 app.use(cors({
-   origin: "https://trojan-record-shop.vercel.app",
-   withCredentials: false,
+   origin: ["https://trojan-record-shop.vercel.app"],
    methods: ["GET", "POST", "PUT", "DELETE"],
    allowedHeaders: [
       "Content-Type",
@@ -25,24 +24,30 @@ app.use(cors({
       "Access-Control-Allow-Headers",
       "Access-Control-Allow-Credentials",
   ],
+   credentials: true,
    preflightContinue: false,
    optionsSuccessStatus: 204,
    optionsNoContentStatus: 204,
    exposedHeaders: ["Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"]
 }));
 
+const xhr = new XMLHttpRequest();
+xhr.open('GET', 'https://trojan-record-shop.vercel.app', true); 
+xhr.withCredentials = true; 
+xhr.send(null);
+
 app.use(session({
   secret: process.env.SESSION_SECRET || 'your_secret_key',
   resave: true,
   saveUninitialized: true,
   store: new MongoStore({
-    mongoUrl: process.env.MONGO_URI, // MongoDB URI
-    ttl: 14 * 24 * 60 * 60, // Sessions will expire after 14 days
+    mongoUrl: process.env.MONGO_URI,
+    ttl: 14 * 24 * 60 * 60,
   }),
   cookie: {
-    maxAge: 6000000, // 600,000 milliseconds = 1 hour
+    maxAge: 6000000, // 1 hour
     secure: true,
-    sameSite: "none", // Allow cross-site requests
+    sameSite: "none",
   }
 }));
 
