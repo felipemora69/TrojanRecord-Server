@@ -8,7 +8,8 @@ import { authRoute } from './routes/auth.js';
 import userRoute from './routes/userRoute.js';
 
 const app = express();
-app.use(express.json());
+app.use(express.static("dist"));
+
 
 dotenv.config();
 
