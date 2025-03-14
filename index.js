@@ -10,6 +10,8 @@ import userRoute from './routes/userRoute.js';
 const app = express();
 app.use(express.json());
 
+const FRONTEND_URL = process.env.FRONTEND_URL;
+
 dotenv.config();
 
 // CORS middleware
