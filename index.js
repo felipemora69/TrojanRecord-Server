@@ -30,15 +30,6 @@ app.use(cors({
    optionsNoContentStatus: 204,
 }));
 
-// Handle OPTIONS preflight request for '/auth/signup'
-app.options('/auth/signup', (req, res) => {
-  res.header('Access-Control-Allow-Origin', 'https://trojan-record-shop.vercel.app');
-  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,Access-Control-Allow-Origin,Access-Control-Allow-Methods,Access-Control-Allow-Headers,Access-Control-Allow-Credentials');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.sendStatus(204); // Respond with "No Content"
-});
-
 app.use(session({
   secret: process.env.SESSION_SECRET || 'your_secret_key',
   resave: true,
@@ -49,7 +40,7 @@ app.use(session({
   }),
   cookie: {
     maxAge: 6000000, // 600,000 milliseconds = 1 hour
-    secure: false,
+    secure: true,
     sameSite: "none", // Allow cross-site requests
   }
 }));
