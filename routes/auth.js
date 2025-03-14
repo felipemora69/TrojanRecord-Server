@@ -31,10 +31,8 @@ router.post("/signup", async (req, res) => {
 
   await user.save();
 
-  req.session({
-    user: user._id,
-    expires: new Date(Date.now() + 60 * 60 * 1000),
-  });
+  req.session.user = user._id;
+  req.session.expires = new Date(Date.now() + 60 * 60 * 1000);
 
   // Send JWT token as response
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -65,10 +63,8 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    req.session({
-      user: user._id,
-      expires: new Date(Date.now() + 60 * 60 * 1000),
-    });
+    req.session.user = user._id;
+    req.session.expires = new Date(Date.now() + 60 * 60 * 1000);
 
     // Generate JWT token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {

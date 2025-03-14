@@ -2,6 +2,7 @@ import express from "express";
 import session from 'express-session';
 import cors from "cors";
 import mongoose from "mongoose";
+import MongoStore from 'connect-mongo';
 import dotenv from 'dotenv';
 import { authRoute } from './routes/auth.js';
 import userRoute from './routes/userRoute.js';
@@ -22,12 +23,16 @@ app.use(cors({
   //  optionsSuccessStatus: 204,
   //  optionsNoContentStatus: 204,
   //  exposedHeaders: ["X-Custom-Header-1", "X-Custom-Header-2"],
-  }));
+}));
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true,
+  store: new MongoStore({
+    mongoUrl: process.env.MONGO_URI, // MongoDB URI
+    ttl: 14 * 24 * 60 * 60, // Sessions will expire after 14 days
+  }),
   cookie: {
     maxAge: 6000000, // 600,000 milliseconds = 1 hour
     secure: false,
