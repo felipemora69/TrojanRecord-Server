@@ -10,10 +10,10 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-  origin: 'http://localhost:8090',  // Allow frontend to access backend
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Allow methods
-  allowedHeaders: ['Content-Type', 'Authorization'],  // Allow headers
-  credentials: true,  // Enable cookies and headers for cross-origin requests
+  origin: 'http://localhost:8090',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, 
 }));
 
 
