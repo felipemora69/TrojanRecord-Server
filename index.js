@@ -15,7 +15,7 @@ dotenv.config();
 // CORS middleware
 app.use(cors({
    origin: "https://trojan-record-shop.vercel.app",
-   withCredentials: true,
+   withCredentials: false,
    methods: ["GET", "POST", "PUT", "DELETE"],
    allowedHeaders: [
       "Content-Type",
@@ -28,6 +28,7 @@ app.use(cors({
    preflightContinue: false,
    optionsSuccessStatus: 204,
    optionsNoContentStatus: 204,
+   exposedHeaders: ["Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"]
 }));
 
 app.use(session({
