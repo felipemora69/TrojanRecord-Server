@@ -15,14 +15,13 @@ dotenv.config();
 // CORS middleware
 app.use(cors({
    origin: "https://trojan-record-shop.vercel.app", //"http://localhost:8090",
-  //  credentials: true,
-  //  methods: ["GET", "POST", "PUT", "DELETE"],
-  //  allowedHeaders: ["Content-Type", "Authorization"],
-  //  credentials: true,
-  //  preflightContinue: true,
-  //  optionsSuccessStatus: 204,
-  //  optionsNoContentStatus: 204,
-  //  exposedHeaders: ["X-Custom-Header-1", "X-Custom-Header-2"],
+    credentials: false,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    preflightContinue: true,
+    optionsSuccessStatus: 204,
+    optionsNoContentStatus: 204,
+    exposedHeaders: ["X-Custom-Header-1", "X-Custom-Header-2"],
 }));
 
 app.use(session({
