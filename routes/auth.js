@@ -1,7 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
-import Session from '../models/sessionModel.js';
+import session from 'express-session';
 
 const router = express.Router();
 
@@ -30,6 +30,11 @@ router.post("/signup", async (req, res) => {
   });
 
   await user.save();
+
+  req.session({
+    user: user._id,
+    expires: new Date(Date.now() + 60 * 60 * 1000),
+  });
 
   // Send JWT token as response
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -60,6 +65,11 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
+    req.session({
+      user: user._id,
+      expires: new Date(Date.now() + 60 * 60 * 1000),
+    });
+
     // Generate JWT token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h", // Token expiration time
@@ -70,6 +80,17 @@ router.post("/login", async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Server error during login" });
   }
+});
+
+// Logout user
+router.post("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).json({ message: "Error logging out" });
+    }
+    res.clearCookie('connect.sid');
+    res.json({ message: "Logged out successfully" });
+  });
 });
 
 export const authRoute = router;

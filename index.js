@@ -1,4 +1,5 @@
 import express from "express";
+import session from 'express-session';
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
@@ -10,25 +11,34 @@ app.use(express.json());
 
 dotenv.config();
 
+// CORS middleware
+app.use(cors({
+   origin: "https://trojan-record-shop.vercel.app", //"http://localhost:8090",
+  //  credentials: true,
+  //  methods: ["GET", "POST", "PUT", "DELETE"],
+  //  allowedHeaders: ["Content-Type", "Authorization"],
+  //  credentials: true,
+  //  preflightContinue: true,
+  //  optionsSuccessStatus: 204,
+  //  optionsNoContentStatus: 204,
+  //  exposedHeaders: ["X-Custom-Header-1", "X-Custom-Header-2"],
+  }));
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 6000000, // 600,000 milliseconds = 1 hour
+    secure: false,
+    sameSite: "none", // Allow cross-site requests
+  }
+}));
+
 // Test route to verify connection
 app.get('/', (req, res) => {
   res.send("Server is up and running!");
 });
-
-// CORS middleware
-const corsOptions = (
-    {
-        origin: ["https://trojan-record-shop.vercel.app"],
-        methods: ["POST", "GET", "PUT", "DELETE"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-        credentials: true
-    }
-);
-
-// Apply CORS middleware globally
-app.use(cors(corsOptions));
-
-app.options('*', cors(corsOptions));
 
 // Connect to the database
 mongoose.connect(process.env.MONGO_URI)
