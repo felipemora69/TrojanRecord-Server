@@ -17,11 +17,17 @@ app.use(cors({
    origin: "https://trojan-record-shop.vercel.app",
    withCredentials: true,
    methods: ["GET", "POST", "PUT", "DELETE"],
-   allowedHeaders: ["Content-Type", "Authorization", "Access-Control-Allow-origin", "Authorization", "Access-Control-Allow-Methods", "Access-Control-Allow-Headers", "Access-Control-Allow-CREDENTIALS", "Access-Control-Max"],
+   allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "Access-Control-Allow-origin",
+      "Access-Control-Allow-Methods",
+      "Access-Control-Allow-Headers",
+      "Access-Control-Allow-Credentials",
+  ],
    preflightContinue: false,
    optionsSuccessStatus: 204,
    optionsNoContentStatus: 204,
-   //exposedHeaders: ["X-Custom-Header-1", "Access-Control-Allow-origin"],
 }));
 
 app.use(session({
