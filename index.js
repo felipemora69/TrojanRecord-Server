@@ -1,6 +1,6 @@
 import express from "express";
 import session from 'express-session';
-import cors from "cors";
+//import cors from "cors";
 import mongoose from "mongoose";
 import MongoStore from 'connect-mongo';
 import dotenv from 'dotenv';
@@ -13,28 +13,7 @@ app.use(express.json());
 dotenv.config();
 
 // CORS middleware
-app.use(cors({
-   origin: ["https://trojan-record-shop.vercel.app"],
-   methods: ["GET", "POST", "PUT", "DELETE"],
-   allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "Access-Control-Allow-origin",
-      "Access-Control-Allow-Methods",
-      "Access-Control-Allow-Headers",
-      "Access-Control-Allow-Credentials",
-  ],
-   credentials: true,
-   preflightContinue: false,
-   optionsSuccessStatus: 204,
-   optionsNoContentStatus: 204,
-   exposedHeaders: ["Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"]
-}));
-
-const xhr = new XMLHttpRequest();
-xhr.open('GET', 'https://trojan-record-shop.vercel.app', true); 
-xhr.withCredentials = true; 
-xhr.send(null);
+//app.use(cors());
 
 app.use(session({
   secret: process.env.SESSION_SECRET || 'your_secret_key',
