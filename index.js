@@ -33,11 +33,6 @@ app.use(cors({
    exposedHeaders: ["Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"]
 }));
 
-const xhr = new XMLHttpRequest();
-xhr.open('GET', 'https://trojan-record-shop.vercel.app', true); 
-xhr.withCredentials = true; 
-xhr.send(null);
-
 app.use(session({
   secret: process.env.SESSION_SECRET || 'your_secret_key',
   resave: true,
