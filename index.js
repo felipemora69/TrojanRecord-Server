@@ -1,52 +1,44 @@
 import express from "express";
-import session from 'express-session';
 import cors from "cors";
 import mongoose from "mongoose";
-import MongoStore from 'connect-mongo';
+//import MongoStore from 'connect-mongo';
 import dotenv from 'dotenv';
-import { authRoute } from './routes/auth.js';
-import userRoute from './routes/userRoute.js';
+//import { authRouter } from './routes/auth.js';
+import userRouter from './routes/userRoute.js';
 
 const app = express();
 app.use(express.json());
+
+app.use(cors({
+  origin: 'http://localhost:8090',  // Allow frontend to access backend
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Allow methods
+  allowedHeaders: ['Content-Type', 'Authorization'],  // Allow headers
+  credentials: true,  // Enable cookies and headers for cross-origin requests
+}));
+
 
 const FRONTEND_URL = process.env.FRONTEND_URL;
 
 dotenv.config();
 
 // CORS middleware
-app.use(cors({
-   origin: ["https://trojan-record-shop.vercel.app"],
-   methods: ["GET", "POST", "PUT", "DELETE"],
-   allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "Access-Control-Allow-origin",
-      "Access-Control-Allow-Methods",
-      "Access-Control-Allow-Headers",
-      "Access-Control-Allow-Credentials",
-  ],
-   credentials: true,
-   preflightContinue: false,
-   optionsSuccessStatus: 204,
-   optionsNoContentStatus: 204,
-   exposedHeaders: ["Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"]
-}));
-
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'your_secret_key',
-  resave: true,
-  saveUninitialized: true,
-  store: new MongoStore({
-    mongoUrl: process.env.MONGO_URI,
-    ttl: 14 * 24 * 60 * 60,
-  }),
-  cookie: {
-    maxAge: 6000000, // 1 hour
-    secure: true,
-    sameSite: "none",
-  }
-}));
+// app.use(cors({
+//    origin: ["https://trojan-record-shop.vercel.app"],
+//    methods: ["GET", "POST", "PUT", "DELETE"],
+//    allowedHeaders: [
+//       "Content-Type",
+//       "Authorization",
+//       "Access-Control-Allow-origin",
+//       "Access-Control-Allow-Methods",
+//       "Access-Control-Allow-Headers",
+//       "Access-Control-Allow-Credentials",
+//   ],
+//    credentials: true,
+//    preflightContinue: false,
+//    optionsSuccessStatus: 204,
+//    optionsNoContentStatus: 204,
+//    exposedHeaders: ["Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"]
+// }));
 
 // Test route to verify connection
 app.get('/', (req, res) => {
@@ -64,8 +56,8 @@ mongoose.connect(process.env.MONGO_URI)
 });
 
 // Routes
-app.use('/auth', authRoute);
-app.use('/user', userRoute);
+//app.use('/api/auth', authRoute);
+app.use('/api/user', userRouter);
 
 // Set the server to listen to the port
 const PORT = 5050;
